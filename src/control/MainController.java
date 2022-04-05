@@ -87,9 +87,12 @@ public class MainController {
      * @param tree Der zu traversierende BinarySearchTree.
      * @return Das Ergebnis der Traversierung als Zeichenkette.
      */
-    private String traverse(BinarySearchTree tree){
+    private String traverse(BinarySearchTree<? extends Customer> tree){
         //TODO 04:  Siehe Rückgabe. You can do it!
-        return "Lege fest, wie die Daten ausgegeben werden sollen!";
+        if(!tree.isEmpty()) {
+            return traverse(tree.getLeftTree()) + traverse(tree.getRightTree()) + ", Name: " + tree.getContent().getName();
+        }
+        return "";
     }
 
     /**
@@ -97,11 +100,22 @@ public class MainController {
      * Falls dieser existiert, wird ein zwei Felder großes Array mit seinem Namen (Index 0) und seinem Umsatz (Index 1) zurückgegeben, sonst null.
      * @return
      */
-    public String[] searchLastName(){
+    public String[] searchLastName() {
         //TODO 05: Umsetzung einer Teilaufgabe einer zurückliegenden Hausaufgabe.
         String[] output = new String[2];
-
+        if (!customerTree.isEmpty()){
+            Customer last = searchLastName(customerTree);
+            output[0] = last.getName();
+            output[1] = String.valueOf(last.getSales());
+        }
         return output;
+    }
+
+    private Customer searchLastName(BinarySearchTree<Customer> tree) {
+        if(tree.getRightTree().isEmpty()) {
+            return tree.getContent();
+        }
+        return searchLastName(tree.getRightTree());
     }
 
     /**
@@ -109,8 +123,10 @@ public class MainController {
      * @return Umsatz-Summe
      */
     public int sumUpSales(){
+        int sum = 0;
         //TODO 06:  Ein weiterer Algorithmus, der mit einer Traversierung einfach umsetzbar ist.
-        return -1;
+
+        return sum;
     }
 
     /**
@@ -120,7 +136,7 @@ public class MainController {
      * @return true, falls ein neuer Kunde hinzugefügt wurde, sonst false.
      */
     public boolean insert(String name, int sales){
-        //TODO 07:  Erste Methode, die auf der Datenstruktur selbst konkret arbeitet und einige Methoden von ihr aufruft.
+        customerTree.insert(new Customer(name,sales));
         return false;
     }
 
@@ -132,6 +148,7 @@ public class MainController {
      */
     public boolean delete(String name){
         //TODO 08: Methode funktioniert so ähnlich wie die vorherige.
+        //I am suffering
         return false;
     }
 
